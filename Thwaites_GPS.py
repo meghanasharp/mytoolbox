@@ -44,3 +44,17 @@ for fn in foldernames:
                       path_to_save = path_to_save, 
                       output_filename = output_filename, 
                       local_utc = local_utc)
+    
+    ### STOPPED HERE. ENDSWITH DOES NOT SUPPORT WILDCARDS. USE REGULAR EXPRESSIONS?
+ #   if fn.endswith("_part*")
+
+
+#concatenate if there are multiple "parts"
+for file in archive.namelist():
+                    if file.endswith(".csv"):
+                        data = pd.read_csv(archive.open(file))
+                        #print('found one!')
+                        #archive.extract(file, path_to_data + "PPP_csv_extracted/")
+    
+                        #df.append(data)
+                        df = pd.concat([df,data])

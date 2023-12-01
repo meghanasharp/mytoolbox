@@ -18,7 +18,8 @@ from pathlib import Path
 
 # Change path to fcnt files if necessary
 path2fcnt = Path('/Volumes/Extreme_SSD/PhD_MS/TARSAN/Nodes/RAW-NODE')
-fcnt_files = path2fcnt.glob('*.fcnt')
+#fcnt_files = path2fcnt.glob('*.fcnt')
+fcnt_files = path2fcnt.glob('1.0.0.fcnt')
 
 # Create output directory (Change directory if necessary)
 pathout = Path('/Volumes/Extreme_SSD/PhD_MS/TARSAN/Nodes/NODE-MINISEED')

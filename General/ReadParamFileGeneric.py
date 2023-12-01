@@ -1,5 +1,4 @@
-# Define a function that will read a generic text file and pull any keys that have the format:
-#   Keyword: Value
+# Define a function that will read a generic text file and pull any keys that have the format "Keyword: Value"
 #     NOTE: The ": " colon/space sequence is the only criterion needed to specify the name.
 #             E.G. Input_file: C:\myfile.shp
 #           Lines without the Keyword: Value sequence will be ignored.

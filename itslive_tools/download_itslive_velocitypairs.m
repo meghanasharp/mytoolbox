@@ -3,13 +3,13 @@ clear all; close all
 
 %% Download image pair velocities
 
-urlListFile = '/Volumes/Extreme_SSD/PhD_MS/TARSAN/ITS_LIVE/netCDFs/velocity_pairs/velocity_pairs_TEIS_TWIT_2010_2023.txt';
+urlListFile = '/Volumes/Sandisk4TB/PhD_MS/TARSAN/ITS_LIVE/netCDFs/velocity_pairs_shearmargin_90p_30days/velocity_pairs_TEIS_all_shearmargin_90p_30days.txt';
 
 % Read the list of URLs from the text file
 urlList = importdata(urlListFile);
 
 % Specify the folder where you want to save the downloaded files
-downloadFolder = '/Volumes/Extreme_SSD/PhD_MS/TARSAN/ITS_LIVE/netCDFs/velocity_pairs/';
+downloadFolder = '/Volumes/Sandisk4TB/PhD_MS/TARSAN/ITS_LIVE/netCDFs/velocity_pairs_shearmargin_90p_30days/';
 
 % Loop through each URL and download the corresponding file
 for i = 1:numel(urlList)

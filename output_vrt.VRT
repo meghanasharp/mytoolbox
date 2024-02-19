@@ -1,0 +1,37 @@
+<VRTDataset rasterXSize="9231" rasterYSize="9401">
+  <SRS dataAxisToSRSAxisMapping="1,2">PROJCS["PS         WGS84",GEOGCS["WGS 84",DATUM["WGS_1984",SPHEROID["WGS 84",6378137,298.257223563,AUTHORITY["EPSG","7030"]],AUTHORITY["EPSG","6326"]],PRIMEM["Greenwich",0],UNIT["degree",0.0174532925199433,AUTHORITY["EPSG","9122"]],AUTHORITY["EPSG","4326"]],PROJECTION["Polar_Stereographic"],PARAMETER["latitude_of_origin",-71],PARAMETER["central_meridian",0],PARAMETER["false_easting",0],PARAMETER["false_northing",0],UNIT["metre",1],AXIS["Easting",NORTH],AXIS["Northing",NORTH]]</SRS>
+  <GeoTransform> -2.5356150000000000e+06,  3.0000000000000000e+01,  0.0000000000000000e+00,  1.3674150000000000e+06,  0.0000000000000000e+00, -3.0000000000000000e+01</GeoTransform>
+  <VRTRasterBand dataType="UInt16" band="1">
+    <NoDataValue>0</NoDataValue>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="0">/Volumes/Sandisk4TB/PhD_MS/SCAR/Landsat_Imagery/LE07_L2SR_218106_20050320_20200914_02_T2_SR_B3.TIF</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="9231" RasterYSize="9401" DataType="UInt16" BlockXSize="256" BlockYSize="256" />
+      <SrcRect xOff="0" yOff="0" xSize="9231" ySize="9401" />
+      <DstRect xOff="0" yOff="0" xSize="9231" ySize="9401" />
+      <NODATA>0</NODATA>
+    </ComplexSource>
+  </VRTRasterBand>
+  <VRTRasterBand dataType="UInt16" band="2">
+    <NoDataValue>0</NoDataValue>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="0">/Volumes/Sandisk4TB/PhD_MS/SCAR/Landsat_Imagery/LE07_L2SR_218106_20050320_20200914_02_T2_SR_B2.TIF</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="9231" RasterYSize="9401" DataType="UInt16" BlockXSize="256" BlockYSize="256" />
+      <SrcRect xOff="0" yOff="0" xSize="9231" ySize="9401" />
+      <DstRect xOff="0" yOff="0" xSize="9231" ySize="9401" />
+      <NODATA>0</NODATA>
+    </ComplexSource>
+  </VRTRasterBand>
+  <VRTRasterBand dataType="UInt16" band="3">
+    <NoDataValue>0</NoDataValue>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="0">/Volumes/Sandisk4TB/PhD_MS/SCAR/Landsat_Imagery/LE07_L2SR_218106_20050320_20200914_02_T2_SR_B1.TIF</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="9231" RasterYSize="9401" DataType="UInt16" BlockXSize="256" BlockYSize="256" />
+      <SrcRect xOff="0" yOff="0" xSize="9231" ySize="9401" />
+      <DstRect xOff="0" yOff="0" xSize="9231" ySize="9401" />
+      <NODATA>0</NODATA>
+    </ComplexSource>
+  </VRTRasterBand>
+</VRTDataset>

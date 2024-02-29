@@ -36,7 +36,6 @@ def nice_quiver(lon, lat, vx, vy, v, vmin, vmax, units = 'm/yr', n =30, img = ''
     # Author: Meghan A. Sharp, Feb/ 2024
     #############
     
-    
     # initiate the figure
     f, ax = plt.subplots()
     

@@ -15,7 +15,8 @@ import matplotlib as plt
 
 
 # %% Load dataset
-recon = xr.open_dataset('/Volumes/Sandisk4TB/PhD_MS/TARSAN/ITS_LIVE/netCDFs/velocity_pairs/S2B_MSIL1C_20220111T151259_N0301_R139_T13CDS_20220111T181207_X_S2B_MSIL1C_20220121T151259_N0301_R139_T13CDS_20220121T181438_G0120V02_P096.nc')
+#recon = xr.open_dataset('/Volumes/Sandisk4TB/PhD_MS/TARSAN/ITS_LIVE/netCDFs/velocity_pairs/S1A_IW_SLC__1SSH_20150701T043600_20150701T043627_006612_008D15_59D2_X_S1A_IW_SLC__1SSH_20150713T043548_20150713T043616_006787_0091F9_6500_G0120V02_P062.nc')
+recon = xr.open_dataset('/Volumes/Sandisk4TB/PhD_MS/TARSAN/ITS_LIVE/netCDFs_for_QGIS/velocity_pairs/S1A_IW_SLC__1SSH_20150701T043600_20150701T043627_006612_008D15_59D2_X_S1A_IW_SLC__1SSH_20150713T043548_20150713T043616_006787_0091F9_6500_G0120V02_P062_cropped.nc')
 
 vx = recon.vx
 vy = recon.vy
@@ -28,7 +29,7 @@ x = recon.x
 v = v.to_numpy()
 
 vx = vx.to_numpy()
-vx = vx[~np.isnan(v)]
+vx = vx[row_mask, col_mask]
 
 vy = vy.to_numpy()
 vy = vy[~np.isnan(v)]

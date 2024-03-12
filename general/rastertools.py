@@ -94,18 +94,18 @@ def crop_raster(input_raster, reference_raster, output_path):
 
 # %% Apply to Thwaites S1 images
 
-input_directory = '/Volumes/Sandisk4TB/PhD_MS/TARSAN/Imagery/Sentinel-1/'
-reference_raster_path = '/Volumes/Sandisk4TB/PhD_MS/TARSAN/Imagery/Clipped_Data/s1a-iw-grd-hh-20211102t043637-20211102t043702-040387-04c983-001_ps_ROI.tiff'
-output_directory = '/Volumes/Sandisk4TB/PhD_MS/TARSAN/Imagery/Clipped_Data/'
+# input_directory = '/Volumes/Sandisk4TB/PhD_MS/TARSAN/Imagery/Sentinel-1/'
+# reference_raster_path = '/Volumes/Sandisk4TB/PhD_MS/TARSAN/Imagery/Clipped_Data/s1a-iw-grd-hh-20211102t043637-20211102t043702-040387-04c983-001_ps_ROI.tiff'
+# output_directory = '/Volumes/Sandisk4TB/PhD_MS/TARSAN/Imagery/Clipped_Data/'
 
-# List all TIFF files in the input directory
-input_raster_files = [f for f in os.listdir(input_directory) if f.endswith('.tiff')]
+# # List all TIFF files in the input directory
+# input_raster_files = [f for f in os.listdir(input_directory) if f.endswith('.tiff')]
 
-# Crop each raster file
-for file in input_raster_files:
-    input_raster_path = os.path.join(input_directory, file)
+# # Crop each raster file
+# for file in input_raster_files:
+#     input_raster_path = os.path.join(input_directory, file)
     
-    outfile = file[:-5] + '_cropped' + file[-5:]
-    output_raster_path = os.path.join(output_directory, outfile)
+#     outfile = file[:-5] + '_cropped' + file[-5:]
+#     output_raster_path = os.path.join(output_directory, outfile)
 
-    crop_raster(input_raster_path, reference_raster_path, output_raster_path)
+#     crop_raster(input_raster_path, reference_raster_path, output_raster_path)

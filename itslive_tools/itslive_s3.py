@@ -13,6 +13,7 @@ import xarray as xr
 import hvplot.pandas
 import cartopy
 import matplotlib as plt
+from shapely import geometry
 
 
 # %% Get ITS_LIVE catalog
@@ -42,7 +43,6 @@ def find_granule_by_point(input_point):
 
 point = [-105.614384, -74.930176]
 url = find_granule_by_point(point)
-
 
 
 # %% Open the datacube as an xarray.Dataset

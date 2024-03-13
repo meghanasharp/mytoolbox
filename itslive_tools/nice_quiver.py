@@ -66,6 +66,6 @@ def nice_quiver(lon, lat, vx, vy, v, vmin, vmax, units = 'm/yr', n =30, img = ''
     
     # save the figure
     if savefig:
-        plt.savefig(outname, dpi = 350)
+        plt.savefig(outname, dpi = 150)
         
     return f

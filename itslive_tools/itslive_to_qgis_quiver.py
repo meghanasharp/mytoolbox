@@ -64,7 +64,7 @@ for infn in goodfiles:
     dc2 = dc_cropped.rename(name_dict={'vx':'u-velocity component'})
     dc2 = dc2.rename(name_dict={'vy':'v-velocity component'})
     
-    # %% rename velocity component variable for opening as mesh in QGIS
+    # %% save!
     
     try:
         dc2.to_netcdf(path=outpath+outfn, mode= "w")

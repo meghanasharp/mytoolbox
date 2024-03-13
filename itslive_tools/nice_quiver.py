@@ -62,7 +62,7 @@ def nice_quiver(lon, lat, vx, vy, v, vmin, vmax, units = 'm/yr', n =30, img = ''
     
     cbar = plt.colorbar(vplot)
     cbar.set_label('v magnitude ' + units)
-    plt.show()
+    #plt.show()
     
     # save the figure
     if savefig:

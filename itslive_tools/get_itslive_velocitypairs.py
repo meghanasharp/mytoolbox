@@ -20,26 +20,37 @@ def download_file(url, save_path):
 base_url = "https://nsidc.org/apps/itslive-search/velocities/urls/"
 
 # Thwaites
+
+year = "2018"
+
 params = {
   "bbox": "-107.562,-74.9689,-103.483,-75.1418",
-  "start": "2022-01-01",
-  "end": "2022-12-31",
+  "start": year + "-01-01",
+  "end": year + "-12-31",
   "percent_valid_pixels": 20, # percent of valid glacier pixels
-  "min_interval": 7, # days of separation between image pairs
+  "min_interval": 30, # days of separation between image pairs
   "max_interval": 30, # days of separation between image pairs
   "version": 2, # version 1 requires an EDL access token header in the request
+  "mission": "S1",
 }
 # This will return a list of NetCDF files in AWS S3 that can be accessed
 # in the cloud or externally
 velocity_pairs = requests.get(base_url, params=params)
 
-print('Found ' + str(len(velocity_pairs.url)) + ' velocity pairs')
+#print('Found ' + str(len(velocity_pairs.content)) + ' velocity pairs')
 
 # %% 
 
 # folder to save the files
-nc_savefolder = '/Volumes/Sandisk4TB/PhD_MS/TARSAN/ITS_LIVE/netCDFs/velocity_pairs_TWITandTEIS/from_requests/nc/2022/'
-png_savefolder = '/Volumes/Sandisk4TB/PhD_MS/TARSAN/ITS_LIVE/netCDFs/velocity_pairs_TWITandTEIS/from_requests/png/2022/'
+nc_savefolder = '/Volumes/Sandisk4TB/PhD_MS/TARSAN/ITS_LIVE/netCDFs/velocity_pairs_TWITandTEIS/from_requests//max30daysep/nc/' + year + '/orig/'
+png_savefolder = '/Volumes/Sandisk4TB/PhD_MS/TARSAN/ITS_LIVE/netCDFs/velocity_pairs_TWITandTEIS/from_requests//max30daysep/png/' + year + '/orig/'
+
+# if the folders don't exist, make them!
+if not os.path.exists(nc_savefolder):
+    os.makedirs(nc_savefolder)
+    
+if not os.path.exists(png_savefolder):
+    os.makedirs(png_savefolder)
 
 # Check if the request was successful
 if velocity_pairs.status_code == 200:

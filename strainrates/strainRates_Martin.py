@@ -11,47 +11,120 @@ Created on Wed Dec  6 10:13:05 2023
 
 import xarray as xr
 import numpy as np
-import matplotlib as plt
+import rasterio
+from matplotlib import pyplot as plt
+import os
+
+# %% set up paths
+
+# # path to ITS_LIVE velocity pairs
+# folder = '/Volumes/Sandisk4TB/PhD_MS/TARSAN/ITS_LIVE/netCDFs_for_QGIS/velocity_pairs_shearmargin_90p_30days/'
+
+# # used the cropped netCDFs
+# filename2017 = 'S1A_IW_SLC__1SSH_20171216T084647_20171216T084714_019725_02188D_D67E_X_S1B_IW_SLC__1SSH_20171222T084605_20171222T084632_008829_00FB9B_9FF0_G0120V02_P091_cropped.nc'
+# filename2018 = 'S1B_IW_SLC__1SSH_20180503T084605_20180503T084632_010754_013A64_E1E9_X_S1A_IW_SLC__1SSH_20180509T084647_20180509T084714_021825_025AE3_8978_G0120V02_P091_cropped.nc'
+# filename2019 = 'S1B_IW_SLC__1SSH_20190522T084612_20190522T084639_016354_01EC80_4F45_X_S1A_IW_SLC__1SSH_20190528T084654_20190528T084721_027425_031802_570D_G0120V02_P091_cropped.nc'
+# filename2021 = 'S1B_IW_SLC__1SSH_20210524T043547_20210524T043615_027041_033B0D_856F_X_S1A_IW_SLC__1SSH_20210530T043629_20210530T043657_038112_047F7A_3562_G0120V02_P092_cropped.nc'
+# filename2022 = 'S2B_MSIL1C_20220111T151259_N0301_R139_T13CDS_20220111T181207_X_S2B_MSIL1C_20220121T151259_N0301_R139_T13CDS_20220121T181438_G0120V02_P096_cropped.nc'
+
+img_folder = '/Volumes/Sandisk4TB/PhD_MS/TARSAN/Imagery/Clipped_Data/'
+
+img_file2017 = 's1a-iw-grd-hh-20171217t043611-20171217t043636-019737-0218ee-001_ps_ROI.tiff'
+img_file2018 = 's1a-iw-grd-hh-20180510t043611-20180510t043636-021837-025b44-001_ps_ROI.tiff'
+img_file2019 = 's1a-iw-grd-hh-20190529t043618-20190529t043643-027437-031864-001_ps_ROI.tiff'
+img_file2021 = 's1a-iw-grd-hh-20210530t043630-20210530t043655-038112-047f7a-001_ps_ROI.tiff'
+img_file2022 = 's1a-iw-grd-hh-20220113t043634-20220113t043659-041437-04ed4e-001_ps_ROI.tiff'
 
 
-# %% Load dataset
-#recon = xr.open_dataset('/Volumes/Sandisk4TB/PhD_MS/TARSAN/ITS_LIVE/netCDFs/velocity_pairs/S1A_IW_SLC__1SSH_20150701T043600_20150701T043627_006612_008D15_59D2_X_S1A_IW_SLC__1SSH_20150713T043548_20150713T043616_006787_0091F9_6500_G0120V02_P062.nc')
-recon = xr.open_dataset('/Volumes/Sandisk4TB/PhD_MS/TARSAN/ITS_LIVE/netCDFs_for_QGIS/velocity_pairs/S1A_IW_SLC__1SSH_20150701T043600_20150701T043627_006612_008D15_59D2_X_S1A_IW_SLC__1SSH_20150713T043548_20150713T043616_006787_0091F9_6500_G0120V02_P062_cropped.nc')
+# %% choose which dataset
+year = 2022
 
-vx = recon.vx
-vy = recon.vy
-v = recon.v
-y = recon.y
-x = recon.x
+# if year == 2017:
+#     filename = filename2017
+#     img_file = img_file2017
+    
+# elif year == 2018:
+#     filename = filename2018
+#     img_file = img_file2018
+    
+# elif year == 2019:
+#     filename = filename2019
+#     img_file = img_file2019
+        
+# elif year == 2021:
+#     filename = filename2021
+#     img_file = img_file2021
+    
+# elif year == 2022:
+#     filename = filename2022
+#     img_file = img_file2022
 
-# %% convert to numpy and drop nans
+# # %% Load ITSLIVE dataset
+# #recon = xr.open_dataset('/Volumes/Sandisk4TB/PhD_MS/TARSAN/ITS_LIVE/netCDFs/velocity_pairs/S1A_IW_SLC__1SSH_20150701T043600_20150701T043627_006612_008D15_59D2_X_S1A_IW_SLC__1SSH_20150713T043548_20150713T043616_006787_0091F9_6500_G0120V02_P062.nc')
+# recon = xr.open_dataset(folder + filename)
 
-v = v.to_numpy()
+# # undo the change in variable name that was done in itslive_to_qgis_quiver.py when netcdfs were cropped
+# recon = recon.rename(name_dict={'u-velocity component':'vx'})
+# recon = recon.rename(name_dict={'v-velocity component':'vy'})
 
+# vx = recon.vx
+# vy = recon.vy
+# v = recon.v
+# y = recon.y
+# x = recon.x
+
+# %% Use Adrian's velocity mosaics
+
+# load all the velocities
+folder = '/Volumes/Sandisk4TB/PhD_MS/TARSAN/Velocity_and_Strain/Velocity_Fields_from_Adrian/Velocity_Monthly_2015_2023_Rishi_Adrian/'
+ 
+# get all the x grids
+x_list = [fn for fn in os.listdir(folder) if fn.endswith('track_filt_detide.mean.x.tif') and not fn.startswith('._')]
+# get all the y grids
+y_list = [fn for fn in os.listdir(folder) if fn.endswith('track_filt_detide.mean.y.tif') and not fn.startswith('._')]
+
+ind = 31
+img_file = img_file2017 
+
+vx = xr.open_rasterio(folder + x_list[ind])
+vy = xr.open_rasterio(folder + y_list[ind])
+v = xr.open_rasterio(folder + y_list[ind][:-5] + 'mag' + y_list[ind][-4:])
+
+# convert to numpy 
 vx = vx.to_numpy()
-vx = vx[row_mask, col_mask]
-
+vx = vx[0]*365
 vy = vy.to_numpy()
-vy = vy[~np.isnan(v)]
+vy = vy[0]*365
+v = v.to_numpy()
+v = v[0]*365
 
-y = y.to_numpy()
-y = y[~np.isnan(v)]
+# get lat and lon coordinate
+y = v.y
+x= v.x
 
-x = x.to_numpy()
-x = x[~np.isnan(v)]
 
-v = v[~np.isnan(v)]
+# %% load the image:
 
+# open the tiff as a raster to get bounds for plotting extent
+rast = rasterio.open(img_folder + img_file)
+extent = [rast.bounds[0], rast.bounds[2], rast.bounds[1], rast.bounds[3]]
+    
+img = plt.imread(img_folder + img_file)
 
 # %% Calculate the 2D mean of each time slice falling in the same year
 
-red = 20
+red = 10
 
 # slice from start to end in "red" number of chunks
-vx_red = vx[::red,::red].to_numpy()
-vy_red = vy[::red,::red].to_numpy()
-x_red = x[::red].to_numpy()
-y_red = y[::red].to_numpy()
+# vx_red = vx[::red,::red].to_numpy()
+# vy_red = vy[::red,::red].to_numpy()
+# x_red = x[::red].to_numpy()
+# y_red = y[::red].to_numpy()
+
+vx_red = vx[::red,::red]
+vy_red = vy[::red,::red]
+x_red = x[::red]
+y_red = y[::red]
 
 dx = np.max(np.diff(x_red))
 dy = np.max(np.diff(y_red))
@@ -79,29 +152,43 @@ pd2x = exy/n2
 pd2y = (dvxdx-e2)/n2
 
 def plot_strainrates(x_red, y_red, e1,e2,pd1x,pd1y,pd2x,pd2y):
-    scale=10000
+    
+    fig1, ax1 = plt.subplots(ncols=1,dpi=205)
+    fig2, ax2 = plt.subplots(ncols=1,dpi=205)
+    
+    ax1.imshow(img, vmin= 0, vmax = 400, cmap = 'gray', extent = extent) 
+    ax2.imshow(img, vmin= 0, vmax = 400, cmap = 'gray', extent = extent)
+    
+    ax1.pcolormesh(x,y,v, shading='nearest', vmax=3000, alpha=0.3, cmap='magma_r')
+    ax2.pcolormesh(x,y,v, shading='nearest', vmax=3000, alpha=0.3, cmap='magma_r')
+    
+    scale=5000
     i=0
+    
     for xi in x_red[1:-1]:
         j=0
+        
         for yi in y_red[1:-1]:
-            if e1[j,i]>0:
+            
+            if e1[j,i]<0: #compression
                 clr='r'
             else:
                 clr='b'
-            plt.plot([xi-pd1x[j,i]*scale*e1[j,i], xi+pd1x[j,i]*scale*e1[j,i]],
-                     [yi-pd1y[j,i]*scale*e1[j,i], yi+pd1y[j,i]*scale*e1[j,i]], color=clr)
-            if e2[j,i]>0:
+                
+            ax1.plot([xi-pd1x[j,i]*scale*e1[j,i], xi+pd1x[j,i]*scale*e1[j,i]],
+                     [yi-pd1y[j,i]*scale*e1[j,i], yi+pd1y[j,i]*scale*e1[j,i]], color=clr, linewidth = 0.8)
+            
+            if e2[j,i]<0:
                 clr='r'
             else:
                 clr='b'
-            plt.plot([xi-pd2x[j,i]*scale*e2[j,i], xi+pd2x[j,i]*scale*e2[j,i]],
-                     [yi-pd2y[j,i]*scale*e2[j,i], yi+pd2y[j,i]*scale*e2[j,i]], color=clr)
+                
+            ax1.plot([xi-pd2x[j,i]*scale*e2[j,i], xi+pd2x[j,i]*scale*e2[j,i]],
+                     [yi-pd2y[j,i]*scale*e2[j,i], yi+pd2y[j,i]*scale*e2[j,i]], color=clr, linewidth = 0.8)
             j+=1
         i+=1
     plt.axis('equal')
        
 
-plt.figure(figsize=(16,12))
-plt.pcolormesh(x,y,v, shading='nearest', vmax=3000, alpha=1, cmap='cool')
-clb=plt.colorbar()
+#plt.figure(figsize=(16,12))
 plot_strainrates(x_red, y_red, e1,e2,pd1x,pd1y,pd2x,pd2y)

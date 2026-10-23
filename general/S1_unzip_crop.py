@@ -5,7 +5,7 @@ Created on Fri Oct 25 11:26:44 2024
 
 @author: msharp
 """
-
+# %%
 # Script to extract S1 images from the zip folders downlaoded from the ASF
 # and then crop them to an area of interest
 
@@ -14,6 +14,7 @@ Created on Fri Oct 25 11:26:44 2024
 import os
 import zipfile
 import sys
+import matplotlib.pyplot as plt
 
 module_path = '/Users/msharp/GitHub/mytoolbox/general/'
 if module_path not in sys.path:
@@ -21,10 +22,14 @@ if module_path not in sys.path:
     
 from rastertools import make_outfn, assign_crs, reproject_raster, resample_raster, crop_to_extent
 
+# %%
+make_pngs = 1
+
 # %% Set up paths
 
-raw_dir = '/Volumes/Sandisk4TB/PhD_MS/TARSAN/Imagery/Sentinel-1_202206-202410/'    # folder that holds downloaded zip files from ASF
+raw_dir = '/Volumes/Sandisk4TB/PhD_MS/TARSAN/Imagery/S1_tmp'    # folder that holds downloaded zip files from ASF
 cropped_dir = '/Volumes/Sandisk4TB/PhD_MS/TARSAN/Imagery/Clipped_Data/'  # folder to hold cropped rasters
+png_dir = '/Volumes/Sandisk4TB/PhD_MS/TARSAN/Imagery/Clipped_Data/PNGs/'
 
 reference_rast = 's1a-iw-grd-hh-20141010t043547-20141010t043611-002762-0031af-001_ps_ROI.tiff'  # filename of cropped raster that defines the extent of the output
 reference_raster_path = os.path.join(cropped_dir, reference_rast)
@@ -89,4 +94,26 @@ for fn in os.listdir(raw_dir):
                     crop_to_extent(current_rast_path, reference_raster_path, output_raster_path)
                     
                     os.remove(current_rast_path)
+                     
+                    if make_pngs:
+                            
+                        fig, ax = plt.subplots()
                 
+                        
+                        img = plt.imread(output_raster_path)
+                        
+                        img_date = int(filename[14:22]) 
+                        
+                        ax.imshow(img, vmin= 0, vmax = 400, cmap = 'gray')
+                        
+                        ax.set_xticks([])
+                        ax.set_yticks([])
+                        ax.set_title(img_date)
+                                     
+                        #plt.show()
+                    
+                        out_folder = png_dir
+                        plt.savefig(out_folder + filename[:-4] + 'png', dpi = 300)
+                
+
+# %%
